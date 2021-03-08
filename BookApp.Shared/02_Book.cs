@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookApp.Shared
@@ -12,6 +13,7 @@ namespace BookApp.Shared
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "번호")]
         public int Id { get; set; }
+
         /// <summary>
         /// 책 제목
         /// </summary>
@@ -20,11 +22,17 @@ namespace BookApp.Shared
         [Display(Name = "책 제목")]
         [Column(TypeName = "NVarChar(255)")]
         public string Title { get; set; }
+
         /// <summary>
         /// 책 설명
         /// </summary>
         [Display(Name = "책 설명")]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 등록일
+        /// </summary>
+        public DateTime? Created { get; set; }
     }
 
     [Table("Books")]

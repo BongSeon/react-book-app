@@ -60,4 +60,8 @@
   <ItemGroup>
     <Build Include="Books.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="BookApp_1.SqlServer.publish.xml" />
+    <None Include="BookApp.SqlServer.publish.xml" />
+  </ItemGroup>
 </Project>
