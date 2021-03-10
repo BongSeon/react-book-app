@@ -93,12 +93,11 @@ namespace BookApp.Shared
             try
             {
                 var model = await _context.Books.FindAsync(id);
-                _context.Remove(id);
+                _context.Remove(model);
                 return await _context.SaveChangesAsync() > 0 ? true : false; // 정상적 삭제시 true
             }
             catch (Exception e)
             {
-
                 _logger?.LogError($"ERROR({nameof(DeleteAsync)}) : {e.Message}");
             }
 

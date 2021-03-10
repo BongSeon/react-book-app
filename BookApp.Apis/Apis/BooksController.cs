@@ -159,5 +159,30 @@ namespace BookApp.Apis.Controllers
             }
         }
         #endregion
+
+
+        #region 삭제
+        // 삭제
+        // DELETE api/Books/123
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                var status = await _repository.DeleteAsync(id);
+                if (!status)
+                {
+                    return BadRequest("status가 없습니다. 삭제할 수 없습니다.");
+                }
+
+                return NoContent(); // 204 NoContent
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest("삭제할 수 없습니다.");
+            }
+        }
+        #endregion
     }
 }
