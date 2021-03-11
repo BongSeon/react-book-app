@@ -1,17 +1,10 @@
 using BookApp.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookApp.Apis
 {
@@ -29,7 +22,36 @@ namespace BookApp.Apis
         {
             services.AddControllers();
 
+            // BookApp 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리
             AddDependencyInjectionContainerForBookApp(services);
+
+            #region CORS 설정
+            //[CORS][1] CORS 사용 등록
+            //[CORS][1][1] 기본: 모두 허용
+            services.AddCors(options =>
+            {
+                //[A][EnableCors] 특성으로 적용 가능
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+
+                //[B][EnableCors("AllowAnyOrigin")] 형태로 적용 가능
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                );
+            });
+
+            //[CORS][1][3] 참고 특정 도메인만 허용
+            //services.AddCors(o => o.AddPolicy("AllowSpecific", options =>
+            //    options.WithOrigins("https://localhost:44362")
+            //    .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+            //    .WithHeaders("accept", "content-type", "origin", "X-TotalRecordCount")
+            //));
+            #endregion
         }
 
         /// <summary>
@@ -58,6 +80,8 @@ namespace BookApp.Apis
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(); // CORS 설정
 
             app.UseEndpoints(endpoints =>
             {
