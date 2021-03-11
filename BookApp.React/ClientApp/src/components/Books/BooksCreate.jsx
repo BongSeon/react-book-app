@@ -2,6 +2,7 @@
 import axios from 'axios'
 
 export class BooksCreate extends Component {
+
     constructor(props) {
         super(props);
 
@@ -16,7 +17,6 @@ export class BooksCreate extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.goIndex = this.goIndex.bind(this);
     }
-
 
     handleChangeTitle(e) {
         this.setState({
