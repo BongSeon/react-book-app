@@ -11,6 +11,9 @@ export class BooksIndex extends Component {
         };
 
         this.renderBooksTable = this.renderBooksTable.bind(this);
+        this.goCreatePage = this.goCreatePage.bind(this);
+        this.editBy = this.editBy.bind(this);
+        this.deleteBy = this.deleteBy.bind(this);
     }
 
     // OnInitialized()
@@ -27,23 +30,41 @@ export class BooksIndex extends Component {
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Title</th>
                         <th>Description</th>
                         <th>Created</th>
-                        <th>-</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {books.map(book =>
                         <tr key={book.id}>
                             <td>{book.id}</td>
+                            <td>{book.title}</td>
                             <td>{book.description}</td>
-                            <td>{book.created}</td>
-                            <td></td>
+                            <td>{book.created ? new Date(book.created).toLocaleDateString() : "-"}</td>
+                            <td className="text-nowrap">
+                                <button className="btn btn-sm btn-primary" onClick={() => this.editBy(book.id)}>Edit</button>
+                                &nbsp;
+                                <button className="btn btn-sm btn-danger" onClick={() => this.deleteBy(book.id)}>Delete</button>
+                            </td>
                         </tr>
                     )}
                 </tbody>
             </table>
         );
+    }
+
+    goCreatePage() {
+        console.log("Create")
+    }
+
+    editBy(id) {
+        console.log("Edit by " + id);
+    }
+
+    deleteBy(id) {
+        console.log("Delete by " + id);
     }
 
     render() {
@@ -53,7 +74,7 @@ export class BooksIndex extends Component {
 
         return (
             <div>
-                <h1>Books</h1>
+                <h1>My Books <button onClick={this.goCreatePage} className="btn btn-primary"><span className="fa fa-plus">+</span></button></h1>
                 <h2>제가 집필한 책입니다.</h2>
                 {contents}
             </div>
@@ -81,4 +102,5 @@ export class BooksIndex extends Component {
         const data = response.data;
         this.setState({ books: data, loading: false });
     }
+
 }
