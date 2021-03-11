@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-
+import axios from 'axios'
 
 export class BooksIndex extends Component {
     constructor(props) {
@@ -15,7 +15,9 @@ export class BooksIndex extends Component {
 
     // OnInitialized()
     componentDidMount() {
-        this.populateBooksData()
+        //this.populateBooksData();
+        //this.populateBooksDataWithAxios();
+        this.populateBooksDataWithAxiosAsync();
     }
 
 
@@ -58,10 +60,25 @@ export class BooksIndex extends Component {
         );
     }
 
+    // Fetch API 를 사용한 방법
     async populateBooksData() {
         const response = await fetch('/api/Books');
         const data = await response.json();
         this.setState({ books: data, loading: false });
+    }
 
+    // Axios 를 사용한방법 Async
+    populateBooksDataWithAxios() {
+        axios.get('/api/Books').then(response => {
+            const data = response.data;
+            this.setState({ books: data, loading: false });
+        });
+    }
+
+    // Axios 를 사용한방법 Async
+    async populateBooksDataWithAxiosAsync() {
+        const response = await axios.get('/api/Books');
+        const data = response.data;
+        this.setState({ books: data, loading: false });
     }
 }
