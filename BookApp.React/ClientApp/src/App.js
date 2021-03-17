@@ -11,6 +11,8 @@ import { BooksIndex } from './components/Books/BooksIndex';
 import { BooksEdit } from './components/Books/BooksEdit';
 import { BooksDelete } from './components/Books/BooksDelete';
 import { BooksCreate } from './components/Books/BooksCreate';
+import { Wheather } from './components/FetchTests/Wheather';
+import { FetchRandomUser } from './components/FetchTests/FetchRandomUser';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -25,6 +27,8 @@ export default class App extends Component {
             <Route path='/Books/Create' component={BooksCreate} exact={true} />
             <Route path='/Books/Edit/:id' component={BooksEdit} exact />
             <Route path='/Books/Delete/:id' component={BooksDelete} exact />
+            <Route path='/Wheather' component={Wheather} />
+            <Route path='/RandomUser' component={FetchRandomUser} />
       </Layout>
     );
   }

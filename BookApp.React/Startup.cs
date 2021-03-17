@@ -1,7 +1,6 @@
 using BookApp.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +31,25 @@ namespace BookApp.React
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            #region CORS
+            //[CORS][1] CORS 사용 등록
+            services.AddCors(options =>
+            {
+                //[A] [EnableCors] 특성으로 적용 가능
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+                //[B] [EnableCors("AllowAnyOrigin")] 형태로 적용 가능
+                options.AddPolicy("ALlowAnyOrigin", builder =>
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                );
+            }); 
+            #endregion
         }
 
         /// <summary>
@@ -66,6 +84,9 @@ namespace BookApp.React
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
